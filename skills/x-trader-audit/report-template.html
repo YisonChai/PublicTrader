@@ -1,0 +1,314 @@
+<!doctype html><html lang="zh-CN"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>__TITLE__ · 公开交易记录分析</title><style>
+:root {
+  color-scheme: dark;
+  --paper: #090b0d;
+  --card: #14181b;
+  --ink: #f1f4f5;
+  --muted: #abb7be;
+  --line: #363f46;
+  --green: #91dfb9;
+  --red: #ffa59c;
+  --return-green: #48f094;
+  --return-red: #ff8a93;
+  --amber: #f1c57c;
+  --tint: #1d252a;
+  --focus: #91dfb9;
+}
+* { box-sizing: border-box; }
+html { scroll-padding-top: 82px; }
+body {
+  margin: 0;
+  background: var(--paper);
+  color: var(--ink);
+  font: 15px/1.6 -apple-system, BlinkMacSystemFont, "PingFang SC", "Microsoft YaHei", sans-serif;
+}
+::selection { color: var(--paper); background: var(--green); }
+a { color: inherit; text-underline-offset: .2em; }
+button, input, select { font: inherit; color: inherit; }
+button, a, input, select { outline-offset: 3px; }
+:focus-visible { outline: 2px solid var(--focus); }
+button, input, select {
+  min-height: 42px;
+  border: 1px solid var(--line);
+  border-radius: 6px;
+  background: var(--card);
+  padding: 8px 12px;
+}
+button { cursor: pointer; font-size: .8125rem; }
+button:hover:not(:disabled) { background: var(--tint); border-color: var(--muted); }
+button:disabled { color: var(--muted); background: var(--paper); opacity: .65; cursor: default; }
+input::placeholder { color: var(--muted); }
+.wrap { max-width: 1312px; margin: auto; padding-inline: 40px; }
+header { position: sticky; top: 0; z-index: 10; background: var(--paper); border-bottom: 1px solid var(--line); }
+.top { display: flex; align-items: center; gap: 36px; min-height: 61px; }
+.brand { color: var(--ink); font: 700 1.1875rem/1.2 Georgia, serif; letter-spacing: -.025em; }
+nav { display: flex; align-items: center; gap: 22px; flex: 1; }
+nav a { display: inline-flex; align-items: center; min-height: 44px; font-size: .8125rem; color: var(--muted); text-decoration: none; white-space: nowrap; }
+nav a:hover { color: var(--ink); text-decoration: underline; }
+.small, .countresult { font-size: .8125rem; color: var(--muted); }
+.hero { padding-top: 34px; margin-bottom: 36px; }
+.identity { display: flex; flex-wrap: wrap; align-items: baseline; gap: 4px 16px; color: var(--muted); font-size: .8125rem; }
+.identity a { color: var(--green); font-weight: 650; }
+h1, .sectionhead h2 { font-family: Georgia, "Songti SC", serif; letter-spacing: -.024em; line-height: 1.2; text-wrap: balance; }
+.hero h1 { margin: 7px 0 8px; font-size: 2.75rem; }
+.intro { margin: 0; color: var(--muted); max-width: 70ch; }
+.stats {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  margin-top: 24px;
+  border-block: 1px solid var(--line);
+}
+.stat { padding: 12px 20px; }
+.stat:first-child { padding-left: 0; }
+.stat + .stat { border-left: 1px solid var(--line); }
+.stat .n { margin-block: 1px; font: 600 1.875rem/1.2 Georgia, serif; font-variant-numeric: tabular-nums; }
+.stat .n small { font-size: .74em; }
+.stat-primary .n { color: var(--green); }
+.section { margin-bottom: 52px; }
+.sectionhead { display: flex; align-items: end; justify-content: space-between; gap: 16px; margin-bottom: 14px; }
+.sectionhead h2 { margin: 0 0 5px; font-size: 1.625rem; }
+.sectionhead p { margin: 0; color: var(--muted); font-size: .875rem; }
+#csvDownload { white-space: nowrap; }
+.pos { color: var(--green); }
+.neg { color: var(--red); }
+.return-pct.pos { color: var(--return-green); }
+.return-pct.neg { color: var(--return-red); }
+.neutral { color: var(--muted); }
+.controls { display: flex; gap: 8px; flex-wrap: wrap; margin: 12px 0 8px; }
+.controls input { flex: 1 1 240px; min-width: 0; }
+.controls select { font-size: .8125rem; max-width: 100%; }
+.countresult { margin-bottom: 8px; }
+.trade-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1.25fr) minmax(0, 1.24fr) minmax(0, .67fr) minmax(0, 1fr) minmax(0, 1fr) minmax(0, 1.1fr) 73px;
+  gap: 14px;
+  padding-inline: 16px;
+}
+.ledger-head { color: var(--muted); background: var(--tint); border: 1px solid var(--line); border-radius: 8px; padding: 9px 20px; margin-bottom: 12px; font-size: .75rem; font-weight: 650; }
+.trade-list {
+  display: grid;
+  gap: 20px;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  background:
+    radial-gradient(ellipse 75% 32% at 8% 27%, rgb(104 104 104 / .30), transparent 82%),
+    radial-gradient(ellipse 75% 32% at 96% 73%, rgb(91 91 91 / .34), transparent 82%);
+  background-size: 100% 640px;
+}
+.trade-item {
+  border: 1px solid rgb(198 198 198 / .32);
+  border-radius: 12px;
+  background: linear-gradient(125deg, rgb(234 234 234 / .13), transparent 64%), rgb(48 48 48 / .84);
+  -webkit-backdrop-filter: blur(16px);
+  backdrop-filter: blur(16px);
+  box-shadow: inset 0 1px rgb(244 244 244 / .07), 0 8px 24px rgb(0 0 0 / .28);
+}
+.trade-item:focus-within { border-color: var(--focus); }
+.trade-summary { padding: 16px 19px; font-size: .8125rem; overflow-wrap: anywhere; }
+.trade-symbol strong { font-size: 1.0625rem; line-height: 1.35; display: block; }
+.sub { display: block; margin-top: 2px; color: var(--muted); font-size: .75rem; }
+.trade-times, .num, .close-quote dd { font-variant-numeric: tabular-nums; }
+.trade-times .sub { margin-top: 0; }
+.field-label { display: none; }
+.num { white-space: nowrap; font-weight: 700; }
+.conflict { color: var(--amber); }
+.evidencebtn { white-space: nowrap; min-height: 36px; padding: 5px 9px; }
+.trade-closes {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 14px 24px;
+  margin: 0;
+  padding: 14px 19px 16px;
+  border-top: 1px solid var(--line);
+  border-radius: 0 0 11px 11px;
+  background: rgb(10 10 10 / .15);
+}
+.close-quote { min-width: 0; }
+.close-quote dt { color: var(--muted); font-size: .875rem; }
+.close-quote dd { display: flex; align-items: baseline; flex-wrap: wrap; gap: 2px 12px; margin: 4px 0 0; }
+.close-quote strong { font-size: 1.75rem; line-height: 1.2; }
+.close-quote dd span { color: var(--muted); font-size: .8125rem; }
+.close-quote a { color: var(--muted); font-size: 1rem; text-decoration-thickness: 1px; white-space: nowrap; }
+.close-quote a:hover { color: var(--ink); }
+.pagination { display: flex; justify-content: space-between; align-items: center; padding-block: 12px; gap: 8px 16px; flex-wrap: wrap; }
+.pagination div { display: flex; align-items: center; gap: 7px; white-space: nowrap; }
+.methodgrid { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; }
+.method { border-top: 1px solid var(--line); padding-top: 14px; }
+.method h3 { margin: 0 0 8px; font-size: 1rem; }
+.method p, .method li { color: var(--muted); font-size: .875rem; }
+.method ol { padding-left: 22px; }
+.method li { margin-block: 8px; }
+.formula { background: var(--tint); padding: 9px 12px; font-size: .875rem; font-variant-numeric: tabular-nums; }
+.downloads { display: flex; gap: 8px; flex-wrap: wrap; margin-top: 14px; }
+.archivepost { display: grid; grid-template-columns: 134px 1fr 68px; gap: 14px; padding-block: 14px; border-bottom: 1px solid var(--line); }
+.archivepost time, .archivepost a { font-size: .8125rem; color: var(--muted); }
+.archivepost p { margin: 0; font-size: .875rem; white-space: pre-wrap; overflow-wrap: anywhere; }
+.truncated { display: block; color: var(--amber); font-size: .75rem; }
+.empty { padding: 28px 16px; text-align: center; color: var(--muted); border-bottom: 1px solid var(--line); }
+footer { border-top: 1px solid var(--line); padding-block: 18px 32px; color: var(--muted); font-size: .8125rem; }
+dialog { width: min(820px, calc(100% - 24px)); max-height: 88dvh; border: 1px solid var(--line); border-radius: 12px; background: var(--card); color: var(--ink); padding: 0; }
+dialog::backdrop { background: rgb(0 0 0 / .75); }
+.dialoghead { display: flex; align-items: center; justify-content: space-between; gap: 16px; position: sticky; top: 0; z-index: 1; background: var(--card); border-bottom: 1px solid var(--line); padding: 14px 22px; }
+.dialoghead h2 { margin: 0; font-size: 1.1875rem; }
+.dialogbody { padding: 16px 22px; }
+.note, .ev { font-size: .875rem; overflow-wrap: anywhere; }
+.note { padding: 10px 12px; background: var(--tint); }
+.ev { padding-block: 13px; margin-top: 10px; border-top: 1px solid var(--line); }
+.ev h4 { margin: 0 0 5px; }
+.ev pre { font: inherit; white-space: pre-wrap; overflow-wrap: anywhere; }
+.prices { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-block: 14px; }
+.price { padding: 9px 12px; border: 1px solid var(--line); font-size: .8125rem; overflow-wrap: anywhere; }
+.price strong { display: block; font-size: 1.1875rem; font-variant-numeric: tabular-nums; }
+@media (max-width: 1040px) {
+  .wrap { padding-inline: 24px; }
+  .trade-grid { gap: 9px; padding-inline: 13px; }
+}
+@media (max-width: 800px) {
+  .ledger-head { display: none; }
+  .trade-summary {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    grid-template-areas: "symbol symbol result" "times quoted estimated" "cash cash evidence";
+    gap: 10px 14px;
+  }
+  .trade-symbol { grid-area: symbol; }
+  .trade-result { grid-area: result; justify-self: end; }
+  .trade-times { grid-area: times; }
+  .trade-return { grid-area: quoted; }
+  .trade-proxy { grid-area: estimated; }
+  .trade-cash { grid-area: cash; }
+  .trade-evidence { grid-area: evidence; justify-self: end; }
+  .field-label { display: block; color: var(--muted); font-size: .75rem; margin-bottom: 2px; }
+  .evidencebtn { min-height: 44px; }
+  .trade-closes { padding-inline: 12px; }
+}
+@media (max-width: 530px) {
+  html { scroll-padding-top: 64px; }
+  .wrap { padding-inline: 14px; }
+  .top { min-height: 54px; gap: 14px; }
+  .top > .small { display: none; }
+  nav { gap: 12px; }
+  nav a { font-size: .75rem; }
+  .brand { font-size: 1rem; }
+  .hero { padding-top: 20px; margin-bottom: 24px; }
+  .hero h1 { font-size: 2rem; }
+  .intro { font-size: .8125rem; }
+  .stats { margin-top: 16px; }
+  .stat { padding: 8px; }
+  .stat .small { font-size: .6875rem; }
+  .stat .n { font-size: 1.35rem; }
+  .sectionhead { align-items: start; flex-wrap: wrap; gap: 8px; }
+  .sectionhead h2 { font-size: 1.375rem; }
+  .controls input { flex-basis: 100%; }
+  .controls select { flex: 1; min-width: 0; }
+  .trade-summary {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    grid-template-areas: "symbol result" "times times" "quoted estimated" "cash evidence";
+  }
+  .trade-closes { gap: 12px; }
+  .close-quote dt { font-size: .8125rem; }
+  .close-quote dd { align-items: start; flex-direction: column; gap: 4px; }
+  .close-quote strong { font-size: 1.375rem; }
+  .close-quote a { font-size: .9375rem; }
+  .methodgrid, .archivepost { grid-template-columns: 1fr; gap: 8px; }
+  .dialoghead, .dialogbody { padding-inline: 14px; }
+}
+</style></head><body>
+<header><div class="wrap top"><div class="brand">PublicTrader</div><nav aria-label="页面导航"><a href="#ledger">逐笔对照</a><a href="#method">统计口径</a><a href="#archive">原始记录</a></nav><span class="small">快照 · __SNAPSHOT__</span></div></header>
+<main class="wrap">
+<section class="hero" aria-labelledby="reportTitle">
+  <div class="identity"><a href="https://x.com/__HANDLE__" target="_blank" rel="noopener noreferrer">X / @__HANDLE__</a><span>数据快照 __SNAPSHOT__</span></div>
+  <h1 id="reportTitle">__TITLE__</h1>
+  <p class="intro">__COVERAGE__</p>
+  <div class="stats">
+    <div class="stat stat-primary"><div class="small">公开配对样本胜率</div><div class="n" id="headlineRate">—</div><div class="small" id="rateDenom"></div></div>
+    <div class="stat"><div class="small">已保存原始记录</div><div class="n">__POST_COUNT__</div><div class="small"><span id="ledgerN">—</span>账本条目 · <span id="sampleN">—</span>可配对样本</div></div>
+    <div class="stat"><div class="small">价格参考正值占比</div><div class="n" id="proxyRate">—</div><div class="small" id="proxyDenom"></div></div>
+  </div>
+</section>
+<section class="section" id="ledger"><div class="sectionhead"><div><h2>入场与退出，逐笔对照</h2><p>发帖时间按 __TIMEZONE__ 显示。每笔下方列出行情日期与收盘价及币种。</p></div><button id="csvDownload">下载账本 CSV</button></div><div class="controls"><input id="tradeSearch" aria-label="搜索交易" placeholder="搜索标的、说明或编号，例如标的代码 / 止损"><select id="gradeFilter" aria-label="证据类型"><option value="all">全部证据类型</option><option value="A">入场与退出可对照</option><option value="B">复盘或证据不全</option><option value="G">多标的组合或汇总</option><option value="U">未平仓</option></select><select id="resultFilter" aria-label="结果筛选"><option value="all">全部结果</option><option>赢</option><option>亏</option><option>平</option><option>未平</option></select><select id="sort" aria-label="排序"><option value="new">退出证据 · 最近优先</option><option value="old">退出证据 · 最早优先</option><option value="proxy">收盘补价估算 · 从高到低</option></select></div><div class="countresult" id="tradeCount" role="status"></div><div class="ledger-head trade-grid" aria-hidden="true">
+  <span>标的 / 方向</span><span>入场与退出证据</span><span>结果</span>
+  <span>原文价格参考</span><span>收盘补价估算</span><span>披露金额</span><span>原文</span>
+</div><ol id="tradeBody" class="trade-list" aria-label="逐笔交易"></ol><div class="pagination"><span class="small">账本隐藏结果未明的记录。胜率按入场与退出均有证据的样本计算。</span></div><div class="small">原文价格参考 = 多头（退出÷入场−1），空头（1−退出÷入场）。没有整仓均价时，只是初始仓参考，绝非实际整仓收益率。“—”表示证据不足。</div></section>
+<section class="section" id="method"><div class="sectionhead"><div><h2>数字是怎样算出来的</h2><p>所有计算可在本地数据文件复核；不把自述、价格代理和账户净收益混在一起。</p></div></div><div class="methodgrid"><article class="method"><h3>胜率分母与交易单位</h3><p><b>可对照的交易。</b>同一标的的实际入场/持仓与实际退出可对照，结果由原文“止盈/止损”等明确表述判断。按一个公开持仓段记一项；加仓、减仓不另造多笔。</p><div class="formula">自述样本胜率 = 赢 /（赢 + 亏）</div><p id="rateFormula"></p><p><b>复盘或证据不全。</b>事后复盘、只见加仓、链条中断或退出成交仍有条件。<b>组合或汇总。</b>多标的组合和累计汇总。<b>未确认交易。</b>结果未明、配对缺口或未平。以上都不进默认胜率。人工账本为可识别样本，未穷尽全部交易。</p><p>不同标的共享一条建仓/退出帖时仍各记一段，样本之间存在相关性；这不是独立随机抽样，也不用于推断未来胜率。</p></article><article class="method"><h3>收盘价与收益估算</h3><p>每笔交易显示入场和退出证据对应日期的收盘价、币种及来源。按标的市场时区取日线。休市时只有核实了上一交易日才向前取价，缺失行情显示“暂无行情”。</p><p>优先使用原文已披露的成交价格，缺少的一端使用收盘价估算。两端同日且报价不全、价格有冲突、合约身份未确认或跨拆股价格不可比时，收益估算留空。每笔备注说明原因。</p><p>多头参考收益为退出价÷入场价−1，空头为1−退出价÷入场价。百分比不包含费用、融资、资金费和未披露的仓位变化。</p></article>
+<article class="method"><h3>统计范围</h3><p>主胜率根据入场与退出能配对且结果明确的公开记录计算。价格参考正值占比使用其中能够计算价格变动的子集。亏损帖、止损帖与盈利帖使用相同的检索与配对条件。</p><p>单个持仓段包含其加仓和减仓记录。组合汇总与单项不重复累计。期权和期货按具体合约识别，杠杆ETF按自身价格计算。</p></article>
+<article class="method"><h3>公开数据与证据</h3><p>__COLLECTION_METHOD__</p><ul>__LIMITATIONS__</ul><p>发帖时间是公开证据的时间。公开记录可能遗漏删除或未披露的交易，因此样本胜率不能代表完整账户或未来胜率。账户净收益还需要资金流、仓位和费用记录。</p></article></div></section>
+<section class="section" id="archive"><div class="sectionhead"><div><h2>原始记录，可全文检索</h2><p>本人帖子与回复按状态URL去重；其他作者的上下文另存，不计入本人发言。含引用和指标的原始文本保留于JSON。</p></div><button id="rawDownload">下载原始 JSON</button></div><div class="controls"><input id="postSearch" aria-label="搜索原始帖子" placeholder="搜索 __POST_COUNT__ 条原文，例如标的名称 / 亏 / 日期"><select id="postMode" aria-label="原文类型"><option value="all">全部原文</option><option value="candidate">含交易词 · __CANDIDATE_COUNT__条</option><option value="unmapped">含交易词但尚未关联账本</option><option value="truncated">含未展开标记 · __TRUNCATED_COUNT__条</option></select></div><div class="countresult" id="postCount" role="status"></div><div id="posts"></div><div class="pagination"><span class="small">候选命中不等于实际发生交易；转述、计划和重复复盘也可能命中。</span><div><button id="postPrev">上一页</button> <span class="small" id="postPage"></span> <button id="postNext">下一页</button></div></div><div class="downloads"><button id="tradeJson">交易账本 JSON</button><button id="marketJson">历史收盘价 JSON</button><button id="manifestJson">抓取范围与限制</button></div></section>
+</main><footer><div class="wrap">本地研究档案 · 数据快照 __SNAPSHOT__ · 页面内嵌公开数据，计算与检索在浏览器中执行。原文链接与行情链接需联网访问。<br>报告分析对象为公开自述记录；没有核实其券商账户、真实资金规模或实际结算流水。</div></footer>
+<dialog id="detail" aria-labelledby="detailTitle"><div class="dialoghead"><div><div class="small" id="detailKicker"></div><h2 id="detailTitle"></h2></div><button id="closeDetail" aria-label="关闭证据详情">关闭</button></div><div class="dialogbody" id="detailBody"></div></dialog>
+<script id="data" type="application/json">__DATA__</script><script>
+'use strict';
+const D=JSON.parse(document.getElementById('data').textContent),R=D.rows,P=D.posts,M=D.manifest;
+const $=s=>document.querySelector(s),esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const num=n=>Number(n).toLocaleString('en-US',{maximumFractionDigits:Math.abs(n)<1?8:2}),pct=n=>n==null?'—':(n>0?'+':'')+n.toFixed(2)+'%',cls=n=>n==null?'neutral':n>0?'pos':n<0?'neg':'neutral';
+const date=s=>s?new Intl.DateTimeFormat('sv-SE',{timeZone:M.displayTimeZone,year:'numeric',month:'2-digit',day:'2-digit',hour:'2-digit',minute:'2-digit',hour12:false}).format(new Date(s)):'未定位';
+const byid=Object.fromEntries(P.map(p=>[p.url.split('/').pop(),p])),mapped=new Set(R.flatMap(r=>r.refs));
+const candidates=new Set(D.candidateIds);
+const isCandidate=p=>candidates.has(p.url.split('/').pop());
+const listedTrades = R.filter(trade => trade.grade !== 'U' || trade.result !== '未明');
+const a=R.filter(r=>r.grade==='A'),w=a.filter(r=>r.result==='赢').length,l=a.filter(r=>r.result==='亏').length,f=a.filter(r=>r.result==='平').length;
+$('#headlineRate').innerHTML=w+l?(100*w/(w+l)).toFixed(1)+'<small>%</small>':'暂无可计算样本';$('#rateDenom').textContent=`${w} 赢 · ${l} 亏 · ${f} 价格持平`;
+$('#sampleN').textContent=a.length+' 段';$('#ledgerN').textContent=R.length+' 项';
+const proxy=a.filter(r=>r.filledReturnPct!=null&&Math.abs(r.filledReturnPct)>1e-9),pw=proxy.filter(r=>r.filledReturnPct>0).length,pl=proxy.length-pw,pxflat=a.filter(r=>r.filledReturnPct===0).length;
+$('#proxyRate').textContent=proxy.length?(100*pw/proxy.length).toFixed(1)+'%':'无法估算';$('#proxyDenom').textContent=`${pw} 正 · ${pl} 负 · ${pxflat} 持平`;
+$('#rateFormula').textContent=`当前 ${a.length} 段：${w} 赢、${l} 亏、${f} 价格持平。分母 ${w+l}，样本胜率 ${w+l?(100*w/(w+l)).toFixed(2)+'%':'暂无可计算样本'}。`;
+let postPage=0,postFiltered=[];const postSize=12;
+function renderTrades(){let q=$('#tradeSearch').value.trim().toLowerCase(),g=$('#gradeFilter').value,o=$('#resultFilter').value;const tradeFiltered=listedTrades.filter(r=>(g==='all'||r.grade===g)&&(o==='all'||r.result===o)&&(!q||[r.id,r.symbol,r.notes,r.cash,r.entryPrice,r.exitPrice,r.entryTime,r.exitTime,r.ticker].join(' ').toLowerCase().includes(q)));let sort=$('#sort').value;tradeFiltered.sort((a,b)=>sort==='proxy'?(b.filledReturnPct??-Infinity)-(a.filledReturnPct??-Infinity):(sort==='new'?-1:1)*String(a.exitTime||a.entryTime||'').localeCompare(b.exitTime||b.entryTime||''));$('#tradeCount').textContent=`显示 ${tradeFiltered.length} / ${listedTrades.length} 项`;
+  $('#tradeBody').innerHTML = tradeFiltered.map(tradeItem).join('') ||
+    '<li class="empty">没有匹配条目。试试其他关键词或调整筛选。</li>';
+}
+
+function closeQuote(label, quote) {
+  return `<div class="close-quote"><dt>${label}</dt><dd>
+    <strong>${quote ? esc(quote.currency) + ' ' + num(quote.close) : '—'}</strong>
+    ${quote ? `<a href="${esc(quote.url)}" target="_blank" rel="noopener noreferrer"
+      aria-label="${esc(label + '行情来源 ' + quote.source + ' ' + quote.date)}"
+      title="${esc(quote.source)}"><time datetime="${esc(quote.date)}">${esc(quote.date)}</time></a>
+      ${quote.shifted ? '<span>前一交易日</span>' : ''}` : '<span>暂无行情</span>'}
+  </dd></div>`;
+}
+
+function tradeItem(r) {
+  const resultClass = r.result === '赢' ? 'pos' : r.result === '亏' ? 'neg' : 'neutral';
+  const entryPrice = r.entryPrice == null ? '缺入场价' : num(r.entryPrice);
+  const exitPrice = r.exitPrice == null ? '缺退出价' : num(r.exitPrice);
+  const proxyNote = r.filledReturnPct != null ? '价格估算' :
+    r.priceMode === 'conflict' ? '原文冲突，见证据' :
+    r.entryClose && r.exitClose && r.entryClose.date === r.exitClose.date ? '同日交易，缺日内报价' :
+    r.grade !== 'A' ? '起讫不确定' : '代码 / 价格不足';
+  const proxyDisagrees = (r.filledReturnPct < 0 && r.result === '赢') ||
+    (r.filledReturnPct > 0 && r.result === '亏');
+
+  return `<li class="trade-item" data-trade-id="${r.id}">
+    <div class="trade-grid trade-summary">
+      <div class="trade-symbol"><strong>${esc(r.symbol)}</strong><span class="sub">${r.id} · ${esc(r.direction)}${r.ticker ? ' · ' + esc(r.ticker) : ''} · ${esc(r.currency)}</span></div>
+      <div class="trade-times"><span class="field-label">入场与退出证据</span>
+        <span>${date(r.entryTime)}</span><span class="sub">${date(r.exitTime)}</span>
+        ${r.period ? '<span class="sub">' + esc(r.period) + '</span>' : ''}
+      </div>
+      <div class="trade-result"><b class="${resultClass}">${r.result}</b></div>
+      <div class="trade-return"><span class="field-label">原文价格参考</span><span class="num return-pct ${cls(r.returnPct)}">${pct(r.returnPct)}</span>
+        <span class="sub">${entryPrice} → ${exitPrice}${r.priceMode === 'reference' && r.returnPct != null ? ' · 初始仓参考' : ''}</span>
+      </div>
+      <div class="trade-proxy"><span class="field-label">收盘补价估算</span><span class="num return-pct ${cls(r.filledReturnPct)}">${pct(r.filledReturnPct)}</span>
+        <span class="sub">${proxyNote}</span>
+        ${proxyDisagrees ? '<span class="sub conflict">与自述结果相反</span>' : ''}
+      </div>
+      <div class="trade-cash"><span class="field-label">披露金额</span>${esc(r.cash)}</div>
+      <div class="trade-evidence"><button class="evidencebtn" data-trade="${r.id}" aria-label="查看 ${r.id} ${esc(r.symbol)}的证据">证据 ${r.refs.length}</button></div>
+    </div>
+    <dl class="trade-closes">
+      ${closeQuote('入场证据对应日收盘', r.entryClose)}
+      ${closeQuote('退出证据对应日收盘', r.exitClose)}
+    </dl>
+  </li>`;
+}
+function renderPosts(){const q=$('#postSearch').value.trim().toLowerCase(),mode=$('#postMode').value;postFiltered=P.filter(p=>{const body=p.body||p.text,tr=p.text.includes('Show more')||p.truncated;return(!q||(body+' '+p.datetime).toLowerCase().includes(q)||(q.length>=10&&p.url.toLowerCase().includes(q)))&&(mode==='all'||mode==='truncated'&&tr||mode==='candidate'&&isCandidate(p)||mode==='unmapped'&&isCandidate(p)&&!mapped.has(p.url.split('/').pop()))}).sort((a,b)=>b.datetime.localeCompare(a.datetime));postPage=Math.min(postPage,Math.max(0,Math.ceil(postFiltered.length/postSize)-1));$('#postCount').textContent=`匹配 ${postFiltered.length} / ${P.length} 条`;
+$('#posts').innerHTML=postFiltered.slice(postPage*postSize,(postPage+1)*postSize).map(p=>`<article class="archivepost"><time>${date(p.datetime)}<br>__TIMEZONE__ 时间${p.text.includes('Show more')||p.truncated?'<span class="truncated">含未展开标记</span>':''}</time><p>${esc(p.body||p.text)}</p><a href="${esc(p.url)}" target="_blank" rel="noopener noreferrer">X 原文</a></article>`).join('')||'<div class="empty">没有匹配原文</div>';$('#postPage').textContent=`${postPage+1} / ${Math.max(1,Math.ceil(postFiltered.length/postSize))}`;$('#postPrev').disabled=postPage===0;$('#postNext').disabled=(postPage+1)*postSize>=postFiltered.length;}
+function priceBox(title,c){return `<div class="price"><span class="small">${title}</span>${c?`<strong>${esc(c.currency)} ${num(c.close)}</strong>${c.date}${c.shifted?' · 休市向前取价':''}<br><a href="${esc(c.url)}" target="_blank" rel="noopener noreferrer">${esc(c.source)}</a>`:'<strong>—</strong>没有可匹配行情'}</div>`}
+function openTrade(id){const r=R.find(r=>r.id===id);if(!r)return;$('#detailKicker').textContent=`${r.id} · ${r.result}`;$('#detailTitle').textContent=`${r.symbol} · ${r.direction}`;$('#detailBody').innerHTML=`<div class="note">${esc(r.notes)}</div><div class="prices">${priceBox('入场证据对应日收盘 · '+(r.ticker||'代码未确定'),r.entryClose)}${priceBox('退出证据对应日收盘 · '+(r.ticker||'代码未确定'),r.exitClose)}</div><p class="small">原文价差参考 <b class="return-pct ${cls(r.returnPct)}">${pct(r.returnPct)}</b> · 缺失用收盘补价 <b class="return-pct ${cls(r.filledReturnPct)}">${pct(r.filledReturnPct)}</b> · 全部收盘对收盘 <b class="return-pct ${cls(r.closeReturnPct)}">${pct(r.closeReturnPct)}</b></p><div class="note">${esc(r.proxyNote)}<br><b>${esc(r.cash)}</b></div>${r.refs.map(i=>{const p=byid[i],kind=r.entry.includes(i)?'入场 / 持仓证据':r.exit.includes(i)?'退出 / 复盘证据':'辅助证据';return `<article class="ev"><h4>${kind} · ${date(p.datetime)}（__TIMEZONE__）</h4><div class="small">原始UTC ${esc(p.datetime)}${p.text.includes('Show more')||p.truncated?' · 本条含未展开标记':''}</div><pre>${esc(p.body||p.text)}</pre><a href="${esc(p.url)}" target="_blank" rel="noopener noreferrer">打开 X 原文</a></article>`}).join('')}`;$('#detail').showModal();}
+document.addEventListener('click',e=>{const b=e.target.closest('[data-trade]');if(b)openTrade(b.dataset.trade)});$('#closeDetail').onclick=()=>$('#detail').close();$('#detail').addEventListener('click',e=>{if(e.target===$('#detail'))$('#detail').close()});
+for(const id of ['tradeSearch','gradeFilter','resultFilter','sort'])$('#'+id).addEventListener(id==='tradeSearch'?'input':'change',renderTrades);for(const id of ['postSearch','postMode'])$('#'+id).addEventListener(id==='postSearch'?'input':'change',()=>{postPage=0;renderPosts()});$('#postPrev').onclick=()=>{postPage--;renderPosts()};$('#postNext').onclick=()=>{postPage++;renderPosts()};
+function download(name,data,type='application/json'){let b=new Blob([typeof data==='string'?data:JSON.stringify(data,null,2)],{type}),u=URL.createObjectURL(b),a=document.createElement('a');a.href=u;a.download=name;a.click();setTimeout(()=>URL.revokeObjectURL(u),1000)}
+$('#rawDownload').onclick=()=>download(M.account+'-posts.json',P);$('#tradeJson').onclick=()=>download(M.account+'-trades.json',R);$('#marketJson').onclick=()=>download(M.account+'-market-prices.json',D.market);$('#manifestJson').onclick=()=>download(M.account+'-manifest.json',M);$('#csvDownload').onclick=()=>download(M.account+'-trades.csv','\uFEFF'+D.csv,'text/csv;charset=utf-8');renderTrades();renderPosts();
+</script></body></html>
