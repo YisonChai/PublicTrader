@@ -8,4 +8,5 @@ PublicTrader 统计社交平台上公开喊单的交易博主胜率。报告把�
 
 
 
+<img width="1320" height="729" alt="image" src="https://github.com/user-attachments/assets/81e7721d-b2ed-4eb8-a1ff-6f5e2b1169bf" />
 
