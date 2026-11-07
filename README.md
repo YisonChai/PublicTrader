@@ -4,10 +4,8 @@ PublicTrader 统计社交平台上公开喊单的交易博主胜率。报告把�
 
 | 博主 | 平台 | 配对样本 | 样本胜率 | 报告 |
 | --- | --- | ---: | ---: | --- |
-| 电鱼哥专注SpaceX | [X · @iiiinvest](https://x.com/iiiinvest) | 24 段（13 赢、10 亏、1 平） | **56.5%** | [HTML](./index.html) |
+| 电鱼哥专注SpaceX | [X · @iiiinvest](https://x.com/iiiinvest) | 24 段（13 赢、10 亏、1 平） | **56.5%** | [HTML](https://yisonchai.github.io/PublicTrader/?v=fc188c7#ledger) |
 
-样本胜率按公开自述结果计算，为盈利段数 ÷（盈利段数＋亏损段数）。持平单列。报告中的收益优先使用帖子披露的价格，缺价时使用对应交易日收盘价估算。样本以 2026 年 11 月 6 日的公开记录快照为准。
 
-下载 `index.html` 后用浏览器打开，可离线搜索交易和已保存的帖子，并导出 CSV。查看 X 原文和行情来源需要联网。
 
-界面优化参考 [Impeccable](https://github.com/pbakaus/impeccable)。
+
