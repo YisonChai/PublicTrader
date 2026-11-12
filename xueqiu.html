@@ -3,27 +3,92 @@
 <style>
 :root{color-scheme:light;--ink:#1b2935;--muted:#647480;--border:#dfe7e8;--paper:#fff;--green:#176f63;--red:#be3357;--blue:#3d73bb}*{box-sizing:border-box}body{margin:0;background:#f3f7f5;color:var(--ink);font:15px/1.55 -apple-system,BlinkMacSystemFont,"PingFang SC","Microsoft YaHei",sans-serif}a{color:var(--green);text-decoration:none}a:hover{text-decoration:underline}header{background:#173d3b;color:#fff}.top{max-width:1180px;margin:auto;padding:18px 24px;display:flex;align-items:center;justify-content:space-between;gap:20px}.top a{color:#d7efea}.brand{font-size:17px;font-weight:750;letter-spacing:.03em}.wrap{max-width:1180px;margin:auto;padding:0 24px}.hero{padding:38px 0 22px}.eyebrow{font-size:12px;font-weight:700;letter-spacing:.14em;color:var(--green)}h1{font-size:clamp(28px,4vw,40px);margin:7px 0 8px;letter-spacing:-.035em}p{margin:6px 0}.muted{color:var(--muted)}.toolbar{display:flex;gap:12px;align-items:center;flex-wrap:wrap;margin:24px 0 12px}.toolbar input,.toolbar select{font:inherit;border:1px solid #cbdad6;border-radius:9px;background:#fff;padding:10px 13px;color:var(--ink)}.toolbar input{flex:1;min-width:200px}.toolbar select{min-width:150px}.method{background:#e7f1ed;border:1px solid #d2e4dc;border-radius:12px;padding:14px 18px;margin:18px 0}.method summary,summary{cursor:pointer;font-weight:700}.method ul{padding-left:20px;margin-bottom:0}.count{font-size:13px;color:var(--muted);margin:10px 0 18px}.card{background:var(--paper);border:1px solid var(--border);border-radius:16px;margin:0 0 20px;box-shadow:0 5px 24px #173d3b08;overflow:hidden}.card-head{padding:20px 22px 12px;display:flex;justify-content:space-between;gap:16px;align-items:flex-start}.card h2{font-size:21px;line-height:1.2;margin:0 0 5px}.code{font-size:12px;color:var(--muted);font-weight:500}.pill{border-radius:99px;background:#e8f5ec;color:#237653;font-size:12px;padding:4px 10px;white-space:nowrap}.stats{display:flex;gap:28px;flex-wrap:wrap;padding:0 22px 16px}.stat{min-width:110px}.stat small{display:block;color:var(--muted);font-size:12px}.stat strong{font-size:18px}.positive{color:var(--red)}.negative{color:var(--blue)}.panels{display:grid;grid-template-columns:minmax(0,1.5fr) minmax(300px,1fr);border-top:1px solid #edf1ef}.panel{padding:15px 22px;min-width:0}.panel+.panel{border-left:1px solid #edf1ef}.panel h3,.details h3{font-size:14px;margin:0 0 4px}.chart{width:100%;height:150px;display:block}.legend{font-size:12px;color:var(--muted);display:flex;gap:14px;flex-wrap:wrap}.dot{display:inline-block;width:8px;height:8px;border-radius:50%;margin-right:5px}.radar-row{display:flex;align-items:center;gap:12px}.radar{width:165px;height:160px;flex:0 0 165px}.score-list{list-style:none;padding:0;margin:0;flex:1;min-width:115px;font-size:12px}.score-list li{display:flex;justify-content:space-between;gap:10px;padding:3px 0;color:var(--muted)}.score-list b{color:var(--ink)}.details{border-top:1px solid #edf1ef;padding:14px 22px}.details summary{font-size:13px;color:var(--green)}.detail-grid{display:grid;grid-template-columns:1fr 1fr;gap:24px;padding-top:16px}.details section{min-width:0}.barrow{display:grid;grid-template-columns:minmax(90px,1fr) 2fr 50px;gap:8px;align-items:center;font-size:12px;margin:7px 0}.bar{height:6px;border-radius:9px;background:#edf2f0;overflow:hidden}.bar i{display:block;height:100%;background:#49a395;border-radius:9px}.barrow span:first-child{overflow:hidden;white-space:nowrap;text-overflow:ellipsis}.scroll{max-height:280px;overflow:auto}.event{padding:8px 0;border-bottom:1px solid #eef2f0;font-size:12px}.event time{display:block;color:var(--muted)}table{width:100%;border-collapse:collapse;font-size:12px}td,th{text-align:left;border-bottom:1px solid #eef2f0;padding:6px 4px;vertical-align:top}th{color:var(--muted)}.tables{display:grid;grid-template-columns:1fr 1fr;gap:16px}.extra{margin-top:15px;color:var(--muted);font-size:12px}.empty{padding:35px;text-align:center;color:var(--muted)}footer{padding:20px 0 45px;color:var(--muted);font-size:12px}@media(max-width:700px){.wrap{padding:0 15px}.top{padding:15px}.hero{padding-top:26px}.card-head,.panel{padding-left:16px;padding-right:16px}.stats{padding-left:16px;padding-right:16px;gap:14px}.stat{min-width:calc(50% - 8px)}.panels,.detail-grid,.tables{grid-template-columns:1fr}.panel+.panel{border-left:0;border-top:1px solid #edf1ef}.radar-row{justify-content:center}.details{padding-left:16px;padding-right:16px}}
 
-/* Plain black canvas; frost and grain belong to the portfolio cards. */
-:root{color-scheme:dark;--ink:#f2f3f7;--muted:#a8aeba;--border:rgba(222,227,240,.12);--green:#e5e7ed;--red:#ed0035;--blue:#2165c3}
-body{background:#08090c}
-header{background:#111216;border-bottom:1px solid rgba(255,255,255,.08)}
-.top a{color:#e5e7ed}.eyebrow{color:#b4bac7}
-.method,.toolbar input,.toolbar select{background:#17181d;border-color:#30323b;color:var(--ink)}
-.toolbar input::placeholder{color:#a1a7b3}.toolbar input:focus-visible,.toolbar select:focus-visible,summary:focus-visible,a:focus-visible{outline:2px solid #b5becf;outline-offset:3px}
-.card{
-  background-color:rgba(250,251,253,.76);
-  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140'%3E%3Cfilter id='grain'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.78' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23grain)' opacity='.17'/%3E%3C/svg%3E"),linear-gradient(180deg,rgba(255,255,255,.24),transparent 125px);
-  color:#18212c;border-color:rgba(255,255,255,.45);border-top-color:rgba(255,255,255,.82);
-  box-shadow:0 14px 36px rgba(0,0,0,.27),inset 0 1px rgba(255,255,255,.64),inset 0 -1px rgba(255,255,255,.12);
-  backdrop-filter:blur(24px);-webkit-backdrop-filter:blur(24px);
+/* Cool ambient light and translucent portfolio panels. */
+:root {
+  color-scheme: dark;
+  --ink: #f3f5fb;
+  --muted: #b6c0d3;
+  --border: rgba(217, 226, 248, .15);
+  --green: #91ebbb;
+  --red: #ff4266;
+  --blue: #86b5ff;
+  --chart-label: #c0cadd;
+  --chart-grid: rgba(193, 209, 241, .20);
 }
-.card a,.details summary{color:#273546}.card a:hover{color:#05080c}
-.card .muted,.card .code,.card .stat small,.card .legend,.card .score-list li,.card .extra,.card th,.card .event time{color:#4b5564}
-.card .score-list b{color:#18212c}
-.pill{background:rgba(67,78,94,.09);color:#435064;border:1px solid rgba(67,78,94,.12)}
-.panels,.details,.panel+.panel,.card .event,.card td,.card th{border-color:rgba(55,67,83,.12)}
-.bar{background:rgba(55,67,83,.12)}.bar i{background:#6c7c8d}
-@media(max-width:700px){.panel+.panel{border-color:rgba(55,67,83,.12)}}
+
+body {
+  background: #080a11;
+  background-image:
+    radial-gradient(ellipse 76% 500px at 93% 180px, #263451, transparent),
+    radial-gradient(ellipse 60% 450px at 0% 600px, #211b33, transparent),
+    linear-gradient(180deg, #080a11, #11172a 48%, #080a11);
+  background-size: 100% 1200px;
+  background-repeat: no-repeat;
+}
+
+header {
+  background: rgba(9, 12, 22, .76);
+  border-bottom: 1px solid var(--border);
+}
+
+a, .top a { color: var(--ink); }
+.eyebrow { color: #a9b7d1; }
+
+.method, .toolbar input, .toolbar select {
+  background: rgba(17, 23, 39, .86);
+  border-color: var(--border);
+  color: var(--ink);
+}
+
+.toolbar input::placeholder { color: #a9b4c8; }
+.toolbar input:focus-visible, .toolbar select:focus-visible, summary:focus-visible, a:focus-visible {
+  outline: 2px solid #b3c7ef;
+  outline-offset: 3px;
+}
+
+.card {
+  background-color: rgba(27, 35, 54, .54);
+  background-image:
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140'%3E%3Cfilter id='grain'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.78' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23grain)' opacity='.08'/%3E%3C/svg%3E"),
+    radial-gradient(ellipse at 93% 0%, rgba(149, 173, 236, .19), transparent 68%),
+    linear-gradient(180deg, rgba(223, 234, 255, .12), rgba(209, 223, 253, .035) 67%);
+  border-color: rgba(211, 224, 255, .22);
+  border-top-color: rgba(220, 232, 255, .34);
+  border-radius: 23px;
+  box-shadow:
+    0 18px 44px rgba(0, 0, 0, .32),
+    0 0 24px rgba(112, 142, 215, .08),
+    inset 0 1px rgba(230, 239, 255, .12);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+}
+
+.card a:hover, .details summary { color: #dee8ff; }
+.pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  color: var(--green);
+  background: rgba(94, 220, 155, .10);
+  border: 1px solid rgba(145, 235, 187, .32);
+}
+
+.pill::before {
+  content: "";
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: currentColor;
+  box-shadow: 0 0 8px rgba(145, 235, 187, .58);
+}
+
+.panels, .details, .panel + .panel, .card .event, .card td, .card th {
+  border-color: var(--border);
+}
+
+.bar { background: var(--border); }
+.bar i { background: #8da6d7; }
+.radar { min-width: 0; flex-shrink: 1; }
 </style></head><body><header><div class="top"><a class="brand" href="./">PublicTrader <span style="font-weight:400;opacity:.7">/ 雪球组合</span></a><a href="./">返回首页 ↗</a></div></header><main class="wrap"><section class="hero"><div class="eyebrow">PORTFOLIO OBSERVATORY · 2026.11.12</div><h1>雪球组合观察</h1><p class="muted">运行中的模拟组合：完整收益曲线、持仓结构与可复核的量化画像。</p><p class="muted">数据为 2026-11-12 快照，雪球模拟组合不等同于实际投资业绩。</p><details class="method"><summary>评分怎么算？查看指标与数据口径</summary><p>四项均在本页有有效数据的运行中组合之间计算分位数，映射为 0–5 分；相同值取平均名次。分数反映本样本的相对位置，不代表投资建议。</p><ul><li><b>稳定性</b>：按全部收益曲线计算最大回撤，回撤越小分数越高；从净值 1 开始记录历史峰值。</li><li><b>收益性</b>：曲线首末点净值计算年化复合收益，区间不足一年时不评分。</li><li><b>持仓多样性</b>：当前持仓权重归一化后计算有效持仓数 1 / Σ权重²，不包含现金；越大分数越高。未取得持仓时留空。</li><li><b>调仓频率</b>：2025-11-12 至 2026-11-12 的调仓事件数，按时间戳去重，排除已取消和分红送配；越频繁分数越高，仅表示活跃度，并非越高越好。记录不完整时不评分。</li></ul><p>数据不足的维度显示“暂无”，雷达图不补零。盈利与亏损榜单为净值贡献，不能当成个股收益率。<a href="https://github.com/YisonChai/PublicTrader/blob/main/scripts/score_xueqiu.py">查看并复算评分脚本 ↗</a></p></details><div class="toolbar"><input id="search" type="search" placeholder="搜索组合、代码或主理人" aria-label="搜索组合、代码或主理人"><select id="sort" aria-label="排序"><option value="return">按累计收益排序</option><option value="name">按组合名称排序</option><option value="stability">按稳定性排序</option><option value="profitability">按收益性排序</option><option value="diversity">按持仓多样性排序</option><option value="frequency">按调仓频率排序</option></select></div><div class="count" id="count" aria-live="polite"></div></section><div id="list"><p class="empty">正在加载组合数据…</p></div><noscript>请启用 JavaScript 查看组合数据。</noscript></main><footer class="wrap">数据来源：雪球及 Notion 整理。持仓、收益和调仓均为采集时点快照，不会自动更新。</footer>
 <script type="application/octet-stream" id="data">H4sIAAAAAAAC/8S9a29rWZU2+ldKW2rpPQoka9nL9vKWzoc5vW5O4su04yQO6g/OirOSOImTOMlM0mqpaKC4Q0EDDRQFDQ0NTb8N
 dDdQUEVR0vkpryr78om/cJ5nLCe1d+1spyid1pF2tBNf5ppzzHF5xphjjvGpv3uQjreGDx4+2Egcp1hxSg8+8eBwcMBXnr7xi0ff
@@ -7484,11 +7549,11 @@ fOv7L/7pF/fcYGtgAW+lXpBEye1/fOYG1dVaRdsn9v/viHzcUZi4X91GghMLdZsb8YnXJWeK3iNWzXpX
 <script type="module">
 const $=s=>document.querySelector(s), esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 const n=(x,d=2)=>x==null||!Number.isFinite(Number(x))?'暂无':Number(x).toLocaleString('zh-CN',{minimumFractionDigits:d,maximumFractionDigits:d});
-const colors=['#f00038','#2569c9','#8565bb'];
+const colors=['var(--red)','var(--blue)','#bcabff'];
 function points(encoded){let a=Uint8Array.from(atob(encoded),c=>c.charCodeAt(0)),v=0,sh=0,buf=[],day=0,p=0,out=[];for(const b of a){v|=(b&127)<<sh;if(b&128)sh+=7;else{buf.push(v);v=0;sh=0}}for(let i=0;i<buf.length;i+=2){day+=buf[i];let x=buf[i+1];p+=x%2?-(x+1)/2:x/2;out.push([day,p/100])}return out}
-function curve(r){const series=r.series.map(s=>({...s,pts:points(s.data)}));let all=series.flatMap(s=>s.pts), xs=all.map(p=>p[0]), ys=all.map(p=>p[1]);let xmin=Math.min(...xs),xmax=Math.max(...xs),ymin=Math.min(0,...ys),ymax=Math.max(0,...ys),yr=ymax-ymin||1;let x=t=>38+(t-xmin)/(xmax-xmin||1)*500,y=t=>125-(t-ymin)/yr*105;let grid=[0,.5,1].map(t=>`<line x1="38" y1="${y(ymin+t*yr)}" x2="538" y2="${y(ymin+t*yr)}" stroke="#c7ccd5"/><text x="33" y="${y(ymin+t*yr)+3}" text-anchor="end" fill="#626c79" font-size="9">${Math.round(ymin+t*yr)}%</text>`).join('');let lines=series.map((s,i)=>`<polyline fill="none" stroke="${colors[i%3]}" stroke-width="2" vector-effect="non-scaling-stroke" points="${s.pts.map(p=>`${x(p[0]).toFixed(1)},${y(p[1]).toFixed(1)}`).join(' ')}"/>`).join('');return `<svg class="chart" viewBox="0 0 550 150" preserveAspectRatio="none" role="img" aria-label="${esc(r.name)}全历史收益率走势">${grid}${lines}<text x="38" y="145" fill="#626c79" font-size="10">${new Date(xmin*86400000).toISOString().slice(0,10)}</text><text x="538" y="145" text-anchor="end" fill="#626c79" font-size="10">${new Date(xmax*86400000).toISOString().slice(0,10)}</text></svg><div class="legend">${series.map((s,i)=>`<span><i class="dot" style="background:${colors[i%3]}"></i>${esc(i===0?'组合':s.name)} ${n(s.pts.at(-1)?.[1])}%</span>`).join('')}</div>`}
+function curve(r){const series=r.series.map(s=>({...s,pts:points(s.data)}));let all=series.flatMap(s=>s.pts), xs=all.map(p=>p[0]), ys=all.map(p=>p[1]);let xmin=Math.min(...xs),xmax=Math.max(...xs),ymin=Math.min(0,...ys),ymax=Math.max(0,...ys),yr=ymax-ymin||1;let x=t=>38+(t-xmin)/(xmax-xmin||1)*500,y=t=>125-(t-ymin)/yr*105;let grid=[0,.5,1].map(t=>`<line x1="38" y1="${y(ymin+t*yr)}" x2="538" y2="${y(ymin+t*yr)}" stroke="var(--chart-grid)"/><text x="33" y="${y(ymin+t*yr)+3}" text-anchor="end" fill="var(--chart-label)" font-size="9">${Math.round(ymin+t*yr)}%</text>`).join('');let lines=series.map((s,i)=>`<polyline fill="none" stroke="${colors[i%3]}" stroke-width="2" vector-effect="non-scaling-stroke" points="${s.pts.map(p=>`${x(p[0]).toFixed(1)},${y(p[1]).toFixed(1)}`).join(' ')}"/>`).join('');return `<svg class="chart" viewBox="0 0 550 150" preserveAspectRatio="none" role="img" aria-label="${esc(r.name)}全历史收益率走势">${grid}${lines}<text x="38" y="145" fill="var(--chart-label)" font-size="10">${new Date(xmin*86400000).toISOString().slice(0,10)}</text><text x="538" y="145" text-anchor="end" fill="var(--chart-label)" font-size="10">${new Date(xmax*86400000).toISOString().slice(0,10)}</text></svg><div class="legend">${series.map((s,i)=>`<span><i class="dot" style="background:${colors[i%3]}"></i>${esc(i===0?'组合':s.name)} ${n(s.pts.at(-1)?.[1])}%</span>`).join('')}</div>`}
 const axes=[['stability','稳定性'],['profitability','收益性'],['diversity','持仓多样性'],['frequency','调仓频率']];
-function radar(r){let s=r.scores,xy=(i,v)=>{let a=-Math.PI/2+i*Math.PI/2;return [82+Math.cos(a)*v*10,80+Math.sin(a)*v*10]};let grid=[1,2,3,4,5].map(v=>`<polygon points="${axes.map((_,i)=>xy(i,v).join(',')).join(' ')}" fill="none" stroke="#aab2bd"/>`).join('');let rays=axes.map((_,i)=>{let p=xy(i,5);return `<line x1="82" y1="80" x2="${p[0]}" y2="${p[1]}" stroke="#aab2bd"/>`}).join('');let good=axes.every(([k])=>s[k]!=null);let poly=good?`<polygon points="${axes.map(([k],i)=>xy(i,s[k]).join(',')).join(' ')}" fill="#929ba8" fill-opacity=".25" stroke="#596574" stroke-width="2"/>`:axes.map(([k],i)=>s[k]==null?'':`<circle cx="${xy(i,s[k])[0]}" cy="${xy(i,s[k])[1]}" r="3.5" fill="#596574"/>`).join('');return `<div class="radar-row"><svg class="radar" viewBox="0 0 164 160" role="img" aria-label="四维评分雷达图">${grid}${rays}${poly}<text x="82" y="15" text-anchor="middle" font-size="10" fill="#626c79">稳定性</text><text x="143" y="83" text-anchor="middle" font-size="10" fill="#626c79">收益性</text><text x="82" y="148" text-anchor="middle" font-size="10" fill="#626c79">持仓多样性</text><text x="18" y="83" text-anchor="middle" font-size="10" fill="#626c79">调仓频率</text></svg><ul class="score-list">${axes.map(([k,l])=>`<li><span>${l}</span><b>${s[k]==null?'暂无':n(s[k],1)+' / 5'}</b></li>`).join('')}</ul></div>`}
+function radar(r){let s=r.scores,xy=(i,v)=>{let a=-Math.PI/2+i*Math.PI/2;return [82+Math.cos(a)*v*10,80+Math.sin(a)*v*10]};let grid=[1,2,3,4,5].map(v=>`<polygon points="${axes.map((_,i)=>xy(i,v).join(',')).join(' ')}" fill="none" stroke="var(--chart-grid)"/>`).join('');let rays=axes.map((_,i)=>{let p=xy(i,5);return `<line x1="82" y1="80" x2="${p[0]}" y2="${p[1]}" stroke="var(--chart-grid)"/>`}).join('');let good=axes.every(([k])=>s[k]!=null);let poly=good?`<polygon points="${axes.map(([k],i)=>xy(i,s[k]).join(',')).join(' ')}" fill="var(--green)" fill-opacity=".26" stroke="var(--green)" stroke-width="2"/>`:axes.map(([k],i)=>s[k]==null?'':`<circle cx="${xy(i,s[k])[0]}" cy="${xy(i,s[k])[1]}" r="3.5" fill="var(--green)"/>`).join('');return `<div class="radar-row"><svg class="radar" viewBox="0 0 164 160" role="img" aria-label="四维评分雷达图">${grid}${rays}${poly}<text x="82" y="15" text-anchor="middle" font-size="10" fill="var(--chart-label)">稳定性</text><text x="143" y="83" text-anchor="middle" font-size="10" fill="var(--chart-label)">收益性</text><text x="82" y="148" text-anchor="middle" font-size="10" fill="var(--chart-label)">持仓多样性</text><text x="18" y="83" text-anchor="middle" font-size="10" fill="var(--chart-label)">调仓频率</text></svg><ul class="score-list">${axes.map(([k,l])=>`<li><span>${l}</span><b>${s[k]==null?'暂无':n(s[k],1)+' / 5'}</b></li>`).join('')}</ul></div>`}
 function table(rows){if(!rows?.length)return '<p class="muted">暂无数据</p>';return `<div class="scroll"><table><tbody>${rows.map(row=>`<tr>${row.map(c=>`<td>${esc(c.replace(/\[([^\]]+)\]\([^)]+\)/g,'$1'))}</td>`).join('')}</tr>`).join('')}</tbody></table></div>`}
 function detail(r){let h=r.holdings||[],m=r.metrics,ev=r.events||[];return `<details class="details"><summary>展开持仓、盈亏贡献及调仓明细</summary><div class="detail-grid"><section><h3>当前持仓 ${h.length?`· ${h.length} 项`:''}</h3><p class="muted">雪球持仓快照；有效持仓数 ${n(m.diversity)}，不含现金。</p>${h.length?h.map(x=>`<div class="barrow"><span title="${esc(x.code)}">${esc(x.name)}</span><span class="bar"><i style="width:${Math.min(100,parseFloat(x.weight)||0)}%"></i></span><b>${esc(x.weight)}</b></div>`).join(''):'<p class="muted">持仓未取得，无法计算多样性。</p>'}</section><section><h3>近一年调仓明细</h3><p class="muted">${r.eventsComplete?`有效调仓 ${m.frequency} 次（已去重）`:'历史未完整取得，不计算频率'} · 原始记录 ${ev.length} 条</p><div class="scroll">${ev.length?ev.map(x=>`<div class="event">${esc(x.replace(/^- /,''))}</div>`).join(''):'<p class="muted">暂无可核实记录</p>'}</div></section></div><div class="detail-grid"><section><h3>盈亏贡献</h3><p class="muted">雪球净值贡献榜单，时间口径未注明。</p><div class="tables"><div><b>赚钱最多</b>${table(r.gains)}</div><div><b>亏钱最多</b>${table(r.losses)}</div></div></section><section><h3>主理人及其组合</h3><p class="muted">其他组合平均收益 ${r.otherMean==null?'暂无':n(r.otherMean)+'%'} · 主理人组合 ${esc(r.managerCount??'暂无')} 个，关停 ${esc(r.closedCount??'暂无')} 个</p><p class="muted">${esc(r.otherScope||'')}</p>${table(r.managerPortfolios)}</section></div><p class="extra">Notion 最大回撤：${r.notionDrawdown==null?'暂无':n(r.notionDrawdown)+'%'} · ${esc(r.drawdownScope||'未提供口径')}。曲线计算最大回撤：${m.stability==null?'暂无':n(-m.stability)+'%'}；年化收益：${m.profitability==null?'暂无':n(m.profitability)+'%'}。</p></details>`}
 function card(r){let m=r.metrics,manager=r.manager||'主理人未知';return `<article class="card"><div class="card-head"><div><h2><a href="${esc(r.source)}" target="_blank" rel="noopener noreferrer">${esc(r.name)} ↗</a></h2><span class="code">${esc(r.code)} · ${esc(manager)}</span></div><span class="pill">运行中</span></div><div class="stats"><div class="stat"><small>累计收益 · 曲线末值</small><strong class="${r.last>=0?'positive':'negative'}">${n(r.last)}%</strong></div><div class="stat"><small>净值 · Notion</small><strong>${n(r.net,4)}</strong></div><div class="stat"><small>曲线最大回撤</small><strong>${m.stability==null?'暂无':n(-m.stability)+'%'}</strong></div><div class="stat"><small>近一年调仓</small><strong>${m.frequency==null?'暂无':m.frequency+' 次'}</strong></div></div><div class="panels"><section class="panel"><h3>收益率走势 · 全部</h3>${curve(r)}</section><section class="panel"><h3>量化画像 <span class="muted"> / 0–5 分</span></h3>${radar(r)}</section></div>${detail(r)}</article>`}
